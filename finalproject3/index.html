@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borough Circles</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('img/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+  }
+  #title {
+    position: absolute;
+    top: 20px; /* Adjust top distance as needed */
+    left: 20px; /* Adjust left distance as needed */
+    font-family: Arial, sans-serif;
+    font-size: 50px;
+    color: black;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Add shadow for better visibility */
+  }
+
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: white;
+    font-weight: bold;
+    overflow: hidden; /* Ensure the image doesn't overflow the circle */
+    transition: transform 0.3s ease; /* Add a smooth transition effect */
+  }
+
+  .circle img {
+    width: 100%; /* Make the image fill the circle */
+    height: 100%; /* Make the image fill the circle */
+    object-fit: cover; /* Ensure the image covers the entire circle */
+  }
+
+  .circle .hover-image {
+    display: none; /* Hide the hover image by default */
+  }
+
+  .circle:hover {
+    transform: scale(1.1); /* Increase the size of the circle on hover */
+  }
+
+  .circle:hover img {
+    display: none; /* Hide the original image on hover */
+  }
+
+  .circle:hover .hover-image {
+    display: block; /* Show the hover image on hover */
+  }
+
+  .circle p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+  }
+
+  .brooklyn { 
+    left: 35%; 
+    bottom:15%;
+    width: 75vh; 
+    height: 75vh; 
+    background-color: #0072ff; 
+  }
+
+  .manhattan { 
+    right: 5%; 
+    bottom: 40%;
+    width: 35vh; 
+    height: 35vh; 
+    background-color: #ff6d00;
+   }
+
+  .queens { 
+    right: 20%;
+    bottom: 5%;
+    width: 40vh; 
+    height: 40vh; 
+    background-color: #00d408; 
+  }
+
+  .staten-island { 
+    right: 25%;
+    top: 5%;
+    width: 21vh; 
+    height: 21vh; 
+    background-color: #ff00ee; 
+  }
+
+  .bronx { 
+  left: 5%;
+  bottom:10%;
+  width: 65vh; /* Increase width */
+  height: 65vh; /* Increase height */
+  background-color: #ff0000; 
+
+  }
+
+</style>
+</head>
+<body>
+
+ <div id="title">NYC Shooting Incident</div>
+
+<a href="brooklyn.html" class="circle brooklyn">
+  <img src="img/brooklyn.png" alt="Brooklyn">
+  <img class="hover-image" src="img/brooklyn.jpg" alt="Brooklyn Hover">
+  <p>Brooklyn</p>
+</a>
+<a href="manhattan.html" class="circle manhattan">
+  <img src="img/manhattan.png" alt="Manhattan">
+  <img class="hover-image" src="img/manhattan.jpg" alt="Manhattan Hover">
+  <p>Manhattan</p>
+</a>
+<a href="queens.html" class="circle queens">
+  <img src="img/queens.png" alt="Queens">
+  <img class="hover-image" src="img/queens.jpg" alt="Queens Hover">
+  <p>Queens</p>
+</a>
+<a href="staten_island.html" class="circle staten-island">
+  <img src="img/statenisland.png" alt="Staten Island">
+  <img class="hover-image" src="img/statenisland.jpg" alt="Staten Island Hover">
+  <p>Staten Island</p>
+</a>
+<a href="bronx.html" class="circle bronx">
+  <img src="img/bronx.png" alt="Bronx">
+  <img class="hover-image" src="img/bronx.jpg" alt="Bronx Hover">
+  <p>Bronx</p>
+</a>
+
+</body>
+</html>
+

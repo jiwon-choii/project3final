@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NYC Crime Map - Brooklyn</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        #header {
+            text-align: center;
+            margin: 20px;
+        }
+
+        #map {
+            height: calc(100% - 80px); 
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>Brooklyn</h1>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // this is where you center on brooklyn, to center on other bouroghs, find thier lat lon coords and put them here. you can then you the 3rd number to zoom in or out
+        let map = L.map('map').setView([40.6782, -73.9442], 13);
+
+        // this is a stylized version of the map. 
+        let cartoLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.carto.com">CartoDB</a>'
+        });
+
+        // this is a satelite view of the map, uncomment this and comment the other to have it look like a satelite view
+        /*
+        let esriLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.esri.com">Esri</a>'
+        });
+        */
+
+        // add the default tile layer (switch between `cartoLayer` and `esriLayer` as needed)
+        cartoLayer.addTo(map);
+        // esriLayer.addTo(map);
+
+        // Fetch the crime data
+        fetch('https://data.cityofnewyork.us/resource/833y-fsy8.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // filter data to only include Brooklyn incidents
+                let brooklynCrimes = data.filter(crime => crime.boro === 'BROOKLYN');
+
+                // add pins to the map
+                brooklynCrimes.forEach(crime => {
+                    let latitude = parseFloat(crime.latitude);
+                    let longitude = parseFloat(crime.longitude);
+
+                    if (!isNaN(latitude) && !isNaN(longitude)) {
+                        L.marker([latitude, longitude])
+                            .addTo(map)
+                            //this is where you have info that shows up when you hover over the pin
+                            .bindPopup(`
+                                <strong>Incident Key:</strong> ${crime.incident_key}<br>
+                                <strong>Date:</strong> ${crime.occur_date}<br>
+                                <strong>Time:</strong> ${crime.occur_time}<br>
+                                <strong>Perpetrator Race:</strong> ${crime.perp_race || "Unknown"}<br>
+                                <strong>Perpetrator Age Group:</strong> ${crime.perp_age_group || "Unknown"}<br>
+                                <strong>Victim Race:</strong> ${crime.vic_race || "Unknown"}<br>
+                                <strong>Victim Age Group:</strong> ${crime.vic_age_group || "Unknown"}<br>
+                                <strong>Location:</strong> ${crime.location_desc || "Unknown"}<br>
+                            `);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
